@@ -17,5 +17,4 @@ Pod::Spec.new do |s|
 
   s.dependency 'Flutter'
   s.dependency 'WebRTC-SDK', '125.6422.06'
-  s.dependency 'flutter_webrtc'
 end
