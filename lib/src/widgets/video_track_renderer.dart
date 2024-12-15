@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 
 import '../events.dart';
@@ -72,8 +73,12 @@ class _VideoTrackRendererState extends State<VideoTrackRenderer> {
       return Null as Future<rtc.VideoRenderer>;
     }
     _renderer ??= rtc.RTCVideoRenderer();
+    final firstFrameRendered = (_renderer! as rtc.RTCVideoRenderer).firstFrameRenderedCompleter();
     await _renderer!.initialize();
     await _attach();
+    if (!firstFrameRendered.isCompleted) {
+      await firstFrameRendered.future;
+    }
     return _renderer!;
   }
 
